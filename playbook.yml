@@ -1,0 +1,25 @@
+
+---
+- name: Install nginx and mysql and php
+  hosts: all
+  become: yes
+
+  vars:
+    sourse_file: ./test.php
+    destin_file: /var/www/html
+
+ tasks:
+ - name: Install nginx
+   apt: name=nginx update_cache=yes state=latest
+
+ - name: copy myhome to server
+   copy: srs={{ sourse_file }} dest={{ destin_file }} mode=0555
+
+ - name: Start nginx
+   service: name-nginx state=started enabled=yes
+
+ - name: Install php
+   apt: name=php7.4 update_cahe=yes state=present
+
+ - name: Install mysql
+   apt: name=mysql update_cache=yes state=present
